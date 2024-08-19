@@ -8,27 +8,10 @@ HomePage
 
 {% block body %}
 
-<h1>HomePage :
-	{{number}}</h1>
+<h1>
+	{{myBook.title}}
+</h1>
 
-{% if number > 50 %}
-	<p>
-		big number
-		{{number}}
-	</p>
-{% endif %}
+<h2>Livres : {{books|length}}<h2>
 
-<div>
-	<table>
-		<tr>
-			<th>
-				FavNumber
-			</th>
-			<td>
-				{{myNumber.favorite}}
-			</td>
-		</tr>
-	</table>
-</div>
-
-{%endblock%}
+		{%endblock%}
