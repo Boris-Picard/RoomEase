@@ -1,0 +1,34 @@
+{% extends 'base.html.twig'%}
+
+{% block title%}
+
+HomePage
+
+{%endblock%}
+
+{% block body %}
+
+<h1>HomePage :
+	{{number}}</h1>
+
+{% if number > 50 %}
+	<p>
+		big number
+		{{number}}
+	</p>
+{% endif %}
+
+<div>
+	<table>
+		<tr>
+			<th>
+				FavNumber
+			</th>
+			<td>
+				{{myNumber.favorite}}
+			</td>
+		</tr>
+	</table>
+</div>
+
+{%endblock%}
