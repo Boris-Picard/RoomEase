@@ -21,11 +21,15 @@ class ApiBooksController extends AbstractController
     // #[Route('', methods: ['POST'])]
     // public function create() {}
 
-    #[Route('/{id<d+>}', methods: ['GET'])]
+    #[Route('/{id<\d+>}', methods: ['GET'])]
     public function get(int $id, BooksRepository $booksRepository): Response
     {
         $book = $booksRepository->find($id);
         
+        if(!$book) {
+            throw $this->createNotFoundException('Livre non trouvé');
+        }
+
         return $this->json($book);
     }
 }

@@ -14,7 +14,7 @@ class BooksRepository
     public function find(int $id): ?Books
     {
         foreach ($this->getAllBooks() as $book) {
-            if ($book->id === $id) {
+            if ($book->getId() === $id) {
                 return $book;
             }
         }
