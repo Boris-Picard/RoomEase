@@ -8,9 +8,9 @@ HomePage
 
 {% block body %}
 
-<h1 class="text-3xl">
+<h1 class="text-3xl hover:underline">
 	<a href="{{ path('app_book_show', { id: myBook.id}) }}">
-		{{myBook.title}}
+		{{myBook.author}}
 	</a>
 </h1>
 

@@ -84,4 +84,9 @@ class Books
         $this->status = $status;
         return $this;
     }
+
+    public function getStatusString(): string
+    {
+        return $this->status->value;
+    }
 }
