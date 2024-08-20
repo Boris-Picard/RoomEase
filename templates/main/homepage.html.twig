@@ -9,7 +9,9 @@ HomePage
 {% block body %}
 
 <h1>
-	{{myBook.title}}
+	<a href="{{ path('app_book_show', { id: myBook.id}) }}">
+		{{myBook.title}}
+	</a>
 </h1>
 
 <h2>Livres :
