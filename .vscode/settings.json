@@ -4,5 +4,7 @@
   },
   "emmet.includeLanguages": {
     "twig": "html"
-  }
+  },
+  "fiveServer.php.executable": "",
+  "fiveServer.php.ini": "C:\\php-8.3.10"
 }
