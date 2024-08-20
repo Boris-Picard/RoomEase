@@ -8,7 +8,7 @@ HomePage
 
 {% block body %}
 
-<h1 class="text-3xl font-bold">
+<h1 class="text-3xl">
 	<a href="{{ path('app_book_show', { id: myBook.id}) }}">
 		{{myBook.title}}
 	</a>
@@ -16,6 +16,5 @@ HomePage
 
 <h2>Livres :
 	{{books|length}}<h2>
-
 
 		{%endblock%}

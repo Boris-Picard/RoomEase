@@ -9,13 +9,15 @@ class Books
     private string $author;
     private int $year;
     private string $genre;
-    public function __construct(int $id,  string $title,  string $author,  int $year,  string $genre)
+    private BookStatusEnum $status;
+    public function __construct(int $id,  string $title,  string $author,  int $year,  string $genre, BookStatusEnum $status)
     {
         $this->id = $id;
         $this->title = $title;
         $this->author = $author;
         $this->year = $year;
         $this->genre = $genre;
+        $this->status = $status;
     }
     public function getId(): int
     {
@@ -40,6 +42,11 @@ class Books
     public function getGenre(): string
     {
         return $this->genre;
+    }
+
+    public function getStatus(): BookStatusEnum
+    {
+        return $this->status;
     }
 
     public function setId(int $id): self
@@ -69,6 +76,12 @@ class Books
     public function setGenre(string $genre): self
     {
         $this->genre = $genre;
+        return $this;
+    }
+
+    public function setStatus(BookStatusEnum $status): self
+    {
+        $this->status = $status;
         return $this;
     }
 }
