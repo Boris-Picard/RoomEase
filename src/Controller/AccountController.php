@@ -17,7 +17,6 @@ class AccountController extends AbstractController
         $existingAccount = $entityManager->getRepository(Account::class)
             ->findOneBy(['email' => 'boris2@gmail.com']);
 
-        // Si un utilisateur existe déjà, lancer une exception ou retourner une réponse appropriée
         if ($existingAccount) {
             throw new Exception('L\'utilisateur existe déjà avec cet email');
         }
