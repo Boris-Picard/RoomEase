@@ -22,8 +22,8 @@ class Room
     #[ORM\Column(length: 255)]
     private ?string $equipments = null;
 
-    #[ORM\OneToOne(targetEntity: Reservation::class, mappedBy: 'room')]
-    private ?Reservation $reservation = null;
+    #[ORM\OneToOne(mappedBy: 'id_room', cascade: ['persist', 'remove'])]
+    private ?Reservation $id_reservation = null;
 
     public function getId(): ?int
     {
@@ -65,14 +65,25 @@ class Room
 
         return $this;
     }
-    public function getReservation(): ?Reservation
+
+    public function getIdReservation(): ?Reservation
     {
-        return $this->reservation;
+        return $this->id_reservation;
     }
 
-    public function setReservation(?string $reservation): static
+    public function setIdReservation(?Reservation $id_reservation): static
     {
-        $this->reservation = $reservation;
+        // unset the owning side of the relation if necessary
+        if ($id_reservation === null && $this->id_reservation !== null) {
+            $this->id_reservation->setIdRoom(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($id_reservation !== null && $id_reservation->getIdRoom() !== $this) {
+            $id_reservation->setIdRoom($this);
+        }
+
+        $this->id_reservation = $id_reservation;
 
         return $this;
     }

@@ -29,9 +29,8 @@ class Account
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updated_at = null;
 
-    #[ORM\OneToOne(targetEntity: Reservation::class, inversedBy: 'user')]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?Reservation $reservation = null;
+    #[ORM\OneToOne(inversedBy: 'id_account', cascade: ['persist', 'remove'])]
+    private ?Reservation $id_reservation = null;
 
     public function getId(): ?int
     {
@@ -98,14 +97,14 @@ class Account
         return $this;
     }
 
-    public function getReservation(): ?Reservation
+    public function getIdReservation(): ?Reservation
     {
-        return $this->reservation;
+        return $this->id_reservation;
     }
 
-    public function setReservation(?Reservation $reservation): static
+    public function setIdReservation(?Reservation $id_reservation): static
     {
-        $this->reservation = $reservation;
+        $this->id_reservation = $id_reservation;
 
         return $this;
     }

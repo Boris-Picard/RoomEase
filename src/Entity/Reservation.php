@@ -26,13 +26,11 @@ class Reservation
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updated_at = null;
 
-    #[ORM\ManyToMany(targetEntity: Account::class, mappedBy: 'reservation')]
-    private Account $users;
+    #[ORM\OneToOne(mappedBy: 'id_reservation', cascade: ['persist', 'remove'])]
+    private ?Account $id_account = null;
 
-    #[ORM\ManyToOne(targetEntity: Room::class, inversedBy: 'reservations')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Room $room = null;
-
+    #[ORM\OneToOne(inversedBy: 'id_reservation', cascade: ['persist', 'remove'])]
+    private ?Room $id_room = null;
 
     public function getId(): ?int
     {
@@ -87,14 +85,36 @@ class Reservation
         return $this;
     }
 
-    public function getRoom(): ?Room
+    public function getIdAccount(): ?Account
     {
-        return $this->room;
+        return $this->id_account;
     }
 
-    public function setRoom(?Room $room): static
+    public function setIdAccount(?Account $id_account): static
     {
-        $this->room = $room;
+        // unset the owning side of the relation if necessary
+        if ($id_account === null && $this->id_account !== null) {
+            $this->id_account->setIdReservation(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($id_account !== null && $id_account->getIdReservation() !== $this) {
+            $id_account->setIdReservation($this);
+        }
+
+        $this->id_account = $id_account;
+
+        return $this;
+    }
+
+    public function getIdRoom(): ?Room
+    {
+        return $this->id_room;
+    }
+
+    public function setIdRoom(?Room $id_room): static
+    {
+        $this->id_room = $id_room;
 
         return $this;
     }
