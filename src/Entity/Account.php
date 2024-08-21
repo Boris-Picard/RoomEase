@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\UsersRepository;
+use App\Repository\AccountRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: UsersRepository::class)]
-class User
+#[ORM\Entity(repositoryClass: AccountRepository::class)]
+class Account
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

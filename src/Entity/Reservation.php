@@ -26,8 +26,8 @@ class Reservation
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updated_at = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'reservation')]
-    private User $users;
+    #[ORM\ManyToMany(targetEntity: Account::class, mappedBy: 'reservation')]
+    private Account $users;
 
     #[ORM\ManyToOne(targetEntity: Room::class, inversedBy: 'reservations')]
     #[ORM\JoinColumn(nullable: false)]
