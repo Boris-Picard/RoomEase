@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,15 +43,21 @@ class UserController extends AbstractController
         return new Response('Saved new user with id :' . $user->getId());
     }
 
-    #[Route('/user/{id<\d+>}', name: 'user_show')]
-    public function show(EntityManagerInterface $entityManager, int $id): Response
+    // #[Route('/user/{id<\d+>}', name: 'user_show')]
+    // public function show(EntityManagerInterface $entityManager, int $id): Response
+    // {
+    //     $user = $entityManager->getRepository(User::class)->find($id);
+
+    //     if (!$user) {
+    //         throw $this->createNotFoundException('Pas d\'utilisateur pour l\'id ' . $id);
+    //     }
+
+    //     return new Response('Utilisater :' . $user->getName());
+    // }
+
+    #[Route('/user/{id<\d+>}')]
+    public function showByPk(User $user): Response
     {
-        $user = $entityManager->getRepository(User::class)->find($id);
-
-        if (!$user) {
-            throw $this->createNotFoundException('Pas d\'utilisateur pour l\'id' . $id);
-        }
-
-        return new Response('Utilisater :' . $user->getName());
+        return $this->json($user);
     }
 }
