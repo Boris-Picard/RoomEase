@@ -78,4 +78,19 @@ class UserController extends AbstractController
             'id' => $user->getId(),
         ]);
     }
+
+    #[Route('/user/delete/{id}', name: 'user_delete')]
+    public function delete(EntityManagerInterface $entityManager, int $id): Response
+    {
+        $user = $entityManager->getRepository(User::class)->find($id);
+
+        if (!$user) {
+            throw $this->createNotFoundException('Pas de user ! ' . $id);
+        }
+
+        $entityManager->remove($user);
+        $entityManager->flush();
+
+        return new Response('User supprimé !');
+    }
 }
