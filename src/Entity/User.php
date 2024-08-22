@@ -2,28 +2,29 @@
 
 namespace App\Entity;
 
-use App\Repository\RoomRepository;
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: RoomRepository::class)]
-class Room
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: '`user`')]
+class User
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 200)]
+    #[ORM\Column(length: 150)]
     private ?string $name = null;
 
-    #[ORM\Column]
-    private ?int $capacity = null;
+    #[ORM\Column(length: 255, unique: true)]
+    private ?string $email = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $location = null;
+    private ?string $password = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created_at = null;
@@ -34,7 +35,7 @@ class Room
     /**
      * @var Collection<int, Reservation>
      */
-    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'room')]
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'id_user')]
     private Collection $id_reservation;
 
     public function __construct()
@@ -59,26 +60,26 @@ class Room
         return $this;
     }
 
-    public function getCapacity(): ?int
+    public function getEmail(): ?string
     {
-        return $this->capacity;
+        return $this->email;
     }
 
-    public function setCapacity(int $capacity): static
+    public function setEmail(string $email): static
     {
-        $this->capacity = $capacity;
+        $this->email = $email;
 
         return $this;
     }
 
-    public function getLocation(): ?string
+    public function getPassword(): ?string
     {
-        return $this->location;
+        return $this->password;
     }
 
-    public function setLocation(string $location): static
+    public function setPassword(string $password): static
     {
-        $this->location = $location;
+        $this->password = $password;
 
         return $this;
     }
@@ -119,7 +120,7 @@ class Room
     {
         if (!$this->id_reservation->contains($idReservation)) {
             $this->id_reservation->add($idReservation);
-            $idReservation->setRoom($this);
+            $idReservation->setIdUser($this);
         }
 
         return $this;
@@ -129,8 +130,8 @@ class Room
     {
         if ($this->id_reservation->removeElement($idReservation)) {
             // set the owning side to null (unless already changed)
-            if ($idReservation->getRoom() === $this) {
-                $idReservation->setRoom(null);
+            if ($idReservation->getIdUser() === $this) {
+                $idReservation->setIdUser(null);
             }
         }
 

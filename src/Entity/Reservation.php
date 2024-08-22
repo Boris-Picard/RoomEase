@@ -14,49 +14,70 @@ class Reservation
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $reservation_date = null;
+    #[ORM\ManyToOne(inversedBy: 'id_reservation')]
+    private ?User $id_user = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $status = null;
+    #[ORM\ManyToOne(inversedBy: 'id_reservation')]
+    private ?Room $room = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $startTime = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $endTime = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created_at = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $updated_at = null;
-
-    #[ORM\OneToOne(mappedBy: 'id_reservation', cascade: ['persist', 'remove'])]
-    private ?Account $id_account = null;
-
-    #[ORM\OneToOne(inversedBy: 'id_reservation', cascade: ['persist', 'remove'])]
-    private ?Room $id_room = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getReservationDate(): ?\DateTimeInterface
+    public function getIdUser(): ?User
     {
-        return $this->reservation_date;
+        return $this->id_user;
     }
 
-    public function setReservationDate(\DateTimeInterface $reservation_date): static
+    public function setIdUser(?User $id_user): static
     {
-        $this->reservation_date = $reservation_date;
+        $this->id_user = $id_user;
 
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getRoom(): ?Room
     {
-        return $this->status;
+        return $this->room;
     }
 
-    public function setStatus(string $status): static
+    public function setRoom(?Room $room): static
     {
-        $this->status = $status;
+        $this->room = $room;
+
+        return $this;
+    }
+
+    public function getStartTime(): ?\DateTimeInterface
+    {
+        return $this->startTime;
+    }
+
+    public function setStartTime(\DateTimeInterface $startTime): static
+    {
+        $this->startTime = $startTime;
+
+        return $this;
+    }
+
+    public function getEndTime(): ?\DateTimeInterface
+    {
+        return $this->endTime;
+    }
+
+    public function setEndTime(\DateTimeInterface $endTime): static
+    {
+        $this->endTime = $endTime;
 
         return $this;
     }
@@ -69,52 +90,6 @@ class Reservation
     public function setCreatedAt(\DateTimeInterface $created_at): static
     {
         $this->created_at = $created_at;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updated_at): static
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
-    }
-
-    public function getIdAccount(): ?Account
-    {
-        return $this->id_account;
-    }
-
-    public function setIdAccount(?Account $id_account): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($id_account === null && $this->id_account !== null) {
-            $this->id_account->setIdReservation(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($id_account !== null && $id_account->getIdReservation() !== $this) {
-            $id_account->setIdReservation($this);
-        }
-
-        $this->id_account = $id_account;
-
-        return $this;
-    }
-
-    public function getIdRoom(): ?Room
-    {
-        return $this->id_room;
-    }
-
-    public function setIdRoom(?Room $id_room): static
-    {
-        $this->id_room = $id_room;
 
         return $this;
     }
