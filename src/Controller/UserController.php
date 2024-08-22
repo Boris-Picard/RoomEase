@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserController extends AbstractController
 {
-    #[Route('/user', name: 'create_user')]
+    #[Route('/user/create', name: 'create_user')]
     public function createUser(EntityManagerInterface $entityManager, ValidatorInterface $validator): Response
     {
         $existingUser = $entityManager->getRepository(User::class)
@@ -25,8 +25,8 @@ class UserController extends AbstractController
 
         $user = new User();
         $user->setName('Boris');
-        $user->setEmail('');
-        $user->setPassword('1234');
+        $user->setEmail('ad@ad.com');
+        $user->setPassword('1234adadaddad');
         $user->setStatus(0);
         $user->setCreatedAt(new \DateTime());
         $user->setUpdatedAt(new \DateTime());
@@ -92,5 +92,19 @@ class UserController extends AbstractController
         $entityManager->flush();
 
         return new Response('User supprimé !');
+    }
+
+    #[Route('/user/email/', name: 'get_user_email')]
+    public function getUserByMail(EntityManagerInterface $entityManager): Response
+    {
+        $email = 'ad@ad.com';
+
+        $user = $entityManager->getRepository(User::class)->findUserByEmail($email);
+        
+        if (!$user) {
+            return new Response('User not found', 404);
+        }
+    
+        return new Response('User found: ' . $user->getName());
     }
 }
