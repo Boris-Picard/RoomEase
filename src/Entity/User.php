@@ -26,8 +26,8 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\Column(boolean: false)]
-    private ?bool $status = false;
+    #[ORM\Column(type: Types::BOOLEAN)]
+    private bool $status = false;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created_at = null;
@@ -87,7 +87,7 @@ class User
         return $this;
     }
 
-    public function getStatus(): ?bool
+    public function getStatus(): bool
     {
         return $this->status;
     }
