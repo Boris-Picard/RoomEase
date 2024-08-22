@@ -55,9 +55,27 @@ class UserController extends AbstractController
     //     return new Response('Utilisater :' . $user->getName());
     // }
 
-    #[Route('/user/{id<\d+>}')]
+    #[Route('/user/{id}', name: 'user_show')]
     public function showByPk(User $user): Response
     {
         return $this->json($user);
+    }
+
+    #[Route('user/update/{id}', name: 'user_update')]
+    public function update(EntityManagerInterface $entityManager, int $id): Response
+    {
+        $user = $entityManager->getRepository(User::class)->find($id);
+
+        if (!$user) {
+            throw $this->createNotFoundException('Pas de user ! ' . $id);
+        }
+
+        $user->setName('Paul');
+        $user->setUpdatedAt(new \DateTime());
+        $entityManager->flush();
+
+        return $this->redirectToRoute('user_show', [
+            'id' => $user->getId(),
+        ]);
     }
 }
