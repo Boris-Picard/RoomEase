@@ -23,14 +23,14 @@ class ReservationType extends AbstractType
             ->add('time', TimeType::class, [
                 'widget' => 'single_text',
             ])
-            // ->add('status')
+            ->add('status')
             // ->add('users', EntityType::class, [
             //     'class' => User::class,
             //     'choice_label' => 'id',
             // ])
             ->add('rooms', EntityType::class, [
                 'class' => Room::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
         ;
     }
