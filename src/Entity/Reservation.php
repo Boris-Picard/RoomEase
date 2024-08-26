@@ -20,9 +20,6 @@ class Reservation
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $time = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $status = null;
-
     #[ORM\ManyToOne(inversedBy: 'reservations')]
     private ?User $users = null;
 
@@ -55,18 +52,6 @@ class Reservation
     public function setTime(\DateTimeInterface $time): static
     {
         $this->time = $time;
-
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): static
-    {
-        $this->status = $status;
 
         return $this;
     }

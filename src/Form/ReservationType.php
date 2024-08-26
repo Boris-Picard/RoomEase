@@ -23,7 +23,6 @@ class ReservationType extends AbstractType
             ->add('time', TimeType::class, [
                 'widget' => 'single_text',
             ])
-            ->add('status')
             // ->add('users', EntityType::class, [
             //     'class' => User::class,
             //     'choice_label' => 'id',

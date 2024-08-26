@@ -48,6 +48,7 @@ class RoomType extends AbstractType
                     "placeholder" => "10"
                 ]
             ])
+            ->add('status')
             ->add('equipment', TextareaType::class, [
                 "label" => 'Describe the equipment',
                 "constraints" => [
