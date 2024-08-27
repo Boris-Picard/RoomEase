@@ -8,6 +8,7 @@ use App\Form\ReservationType;
 use App\Repository\ReservationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -32,13 +33,24 @@ class ReservationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $room = $reservation->getRooms();
-            if ($room !== null && $room->getStatus() === ReservationStatusEnum::Available->value) {
-                $room->setStatus(ReservationStatusEnum::Reserved);
-            }
-            $entityManager->persist($reservation);
-            $entityManager->flush();
+            // if a room exist
+            if ($room !== null) {
+                // if room status is strictly different of available add an error to the form & render the same form
+                if ($room->getStatus() !== ReservationStatusEnum::Available->value) {
+                    $form->get('rooms')->addError(new FormError('This room is not available for reservation.'));
 
-            return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
+                    return $this->render('reservation/new.html.twig', [
+                        'reservation' => $reservation,
+                        'form' => $form,
+                    ]);
+                }
+                // if all is ok set status to reserved add to db and return to index page
+                $room->setStatus(ReservationStatusEnum::Reserved);
+                $entityManager->persist($reservation);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('reservation/new.html.twig', [
