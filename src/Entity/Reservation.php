@@ -16,12 +16,10 @@ class Reservation
     private ?int $id = null;
 
     #[Assert\NotBlank]
-    #[Assert\Date]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
     #[Assert\NotBlank]
-    #[Assert\Time]
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $time = null;
 
