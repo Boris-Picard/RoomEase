@@ -37,7 +37,9 @@ class ReservationType extends AbstractType
                         ->setParameter('status', ReservationStatusEnum::Available->value)
                         ->orderBy('r.name', 'ASC');
                 },
-                'choice_label' => 'name',
+                'choice_label' => function (Room $room): string {
+                    return 'Room : ' . $room->getName() . ' - ' . 'Capacity : ' . $room->getCapacity();
+                },
             ]);
     }
 
