@@ -6,6 +6,7 @@ use App\Entity\Reservation;
 use App\Entity\Room;
 use App\Enum\ReservationStatusEnum;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -30,13 +31,13 @@ class ReservationType extends AbstractType
             // ])
             ->add('rooms', EntityType::class, [
                 'class' => Room::class,
-                'choice_label' => 'name',
-                'query_builder' => function (EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er): QueryBuilder {
                     return $er->createQueryBuilder('r')
                         ->where('r.status = :status')
                         ->setParameter('status', ReservationStatusEnum::Available->value)
                         ->orderBy('r.name', 'ASC');
                 },
+                'choice_label' => 'name',
             ]);
     }
 
