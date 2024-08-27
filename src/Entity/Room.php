@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
 class Room
@@ -17,15 +18,31 @@ class Room
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 2,
+        max: 200,
+        minMessage: 'The name must be at least {{ limit }} characters long',
+        maxMessage: 'The name cannot be longer than {{ limit }} characters',
+    )]
     #[ORM\Column(length: 200)]
     private ?string $name = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Positive]
     #[ORM\Column]
     private ?int $capacity = null;
 
     #[ORM\Column(type: Types::STRING, length: 50)]
     private ?string $status = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 15,
+        max: 1000,
+        minMessage: 'The name must be at least {{ limit }} characters long',
+        maxMessage: 'The name cannot be longer than {{ limit }} characters',
+    )]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $equipment = null;
 
