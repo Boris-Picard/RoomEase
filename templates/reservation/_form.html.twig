@@ -1,6 +1,6 @@
 {% use 'form_themes/tailwind.html.twig' %}
 
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_widget(form) }}
+<button class="p-3 bg-zinc-800 hover:bg-zinc-600 text-white font-bold rounded-md w-full">{{ button_label|default('Create a Reservation') }}</button>
 {{ form_end(form) }}

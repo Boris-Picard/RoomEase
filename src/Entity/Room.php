@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\ReservationStatusEnum;
 use App\Repository\RoomRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,7 +23,7 @@ class Room
     #[ORM\Column]
     private ?int $capacity = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(type: Types::STRING, length: 50)]
     private ?string $status = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -37,6 +38,7 @@ class Room
     public function __construct()
     {
         $this->reservations = new ArrayCollection();
+        $this->status = ReservationStatusEnum::Available->value;
     }
 
     public function getId(): ?int
@@ -73,9 +75,9 @@ class Room
         return $this->status;
     }
 
-    public function setStatus(string $status): static
+    public function setStatus(ReservationStatusEnum $status): self
     {
-        $this->status = $status;
+        $this->status = $status->value;
 
         return $this;
     }

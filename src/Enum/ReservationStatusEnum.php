@@ -6,5 +6,5 @@ enum ReservationStatusEnum: string
 {
     case Available = 'Available';
     case Pending = 'Pending';
-    case Reserver = 'Reserved';
+    case Reserved = 'Reserved';
 }
