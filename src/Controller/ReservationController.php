@@ -32,7 +32,7 @@ class ReservationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $room = $reservation->getRooms();
-            if ($room !== null | $room === ReservationStatusEnum::Available) {
+            if ($room !== null && $room->getStatus() === ReservationStatusEnum::Available->value) {
                 $room->setStatus(ReservationStatusEnum::Reserved);
             }
             $entityManager->persist($reservation);
@@ -77,6 +77,10 @@ class ReservationController extends AbstractController
     public function delete(Request $request, Reservation $reservation, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $reservation->getId(), $request->getPayload()->getString('_token'))) {
+            $room = $reservation->getRooms();
+            if ($room->getStatus() === ReservationStatusEnum::Reserved->value) {
+                $room->setStatus(ReservationStatusEnum::Available);
+            }
             $entityManager->remove($reservation);
             $entityManager->flush();
         }
