@@ -15,6 +15,7 @@ class Reservation
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\GreaterThanOrEqual('tomorrow')]
     #[Assert\NotBlank]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;

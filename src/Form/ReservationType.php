@@ -21,6 +21,9 @@ class ReservationType extends AbstractType
         $builder
             ->add('date', DateType::class, [
                 'widget' => 'single_text',
+                'attr' => [
+                    'min' => (new \DateTime())->modify('+1 day')->format('Y-m-d'),
+                ]
             ])
             ->add('time', TimeType::class, [
                 'widget' => 'single_text',
