@@ -20,19 +20,25 @@ class ReservationType extends AbstractType
     {
         $builder
             ->add('date', DateType::class, [
+                'label' => 'Select a date to reserve the room',
                 'widget' => 'single_text',
                 'attr' => [
                     'min' => (new \DateTime())->modify('+1 day')->format('Y-m-d'),
                 ]
             ])
             ->add('time', TimeType::class, [
-                'widget' => 'single_text',
+                'label' => 'Select an hour to return the room',
+                'widget' => 'choice',
+                'hours' => [8, 12, 16],
+                'minutes' => [0, 15, 30, 45],
+                'input' => 'datetime',
             ])
             // ->add('users', EntityType::class, [
             //     'class' => User::class,
             //     'choice_label' => 'id',
             // ])
             ->add('rooms', EntityType::class, [
+                'label' => 'Select a Room',
                 'class' => Room::class,
                 'query_builder' => function (EntityRepository $er): QueryBuilder {
                     return $er->createQueryBuilder('r')

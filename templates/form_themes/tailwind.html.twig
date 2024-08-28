@@ -42,6 +42,14 @@
     </div>
 {%- endblock choice_widget_expanded -%}
 
+{%- block time_widget -%}
+    {%- set attr = attr|merge({ class: attr.class|default('flex space-x-2 min-w-full') }) -%} 
+    <div {{ block('widget_container_attributes') }}>
+        {{ form_widget(form.hour, { attr: { class: 'form-control w-full rounded-md mt-1' } }) }}
+        {{ form_widget(form.minute, { attr: { class: 'form-control w-full rounded-md mt-1' } }) }}
+    </div>
+{%- endblock time_widget -%}
+
 {%- block checkbox_row -%}
     {%- set row_attr = row_attr|merge({ class: row_attr.class|default(row_class|default('mb-6')) }) -%}
     {%- set widget_attr = {} -%}
