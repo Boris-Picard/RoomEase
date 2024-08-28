@@ -17,6 +17,7 @@ class RoomController extends AbstractController
     #[Route('/', name: 'app_room_index', methods: ['GET'])]
     public function index(RoomRepository $roomRepository): Response
     {
+
         return $this->render('room/index.html.twig', [
             'rooms' => $roomRepository->findAll(),
         ]);

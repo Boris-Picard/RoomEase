@@ -49,7 +49,7 @@ class Room
     /**
      * @var Collection<int, Reservation>
      */
-    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'rooms', fetch:'EAGER')]
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'rooms')]
     private Collection $reservations;
 
     public function __construct()

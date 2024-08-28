@@ -5,42 +5,42 @@
 
 {% block body %}
 	{# <div class="max-w-2xl mt-10 mx-auto">
-				<h1>Room index</h1>
-		
-				<table class="table">
-					<thead>
-						<tr>
-							<th>Id</th>
-							<th>Name</th>
-							<th>Capacity</th>
-							<th>Equipment</th>
-							<th>Status</th>
-							<th>actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for room in rooms %}
+					<h1>Room index</h1>
+			
+					<table class="table">
+						<thead>
 							<tr>
-								<td>{{ room.id }}</td>
-								<td>{{ room.name }}</td>
-								<td>{{ room.capacity }}</td>
-								<td>{{ room.equipment }}</td>
-								<td>{{ room.status }}</td>
-								<td>
-									<a href="{{ path('app_room_show', {'id': room.id}) }}">show</a>
-									<a href="{{ path('app_room_edit', {'id': room.id}) }}">edit</a>
-								</td>
+								<th>Id</th>
+								<th>Name</th>
+								<th>Capacity</th>
+								<th>Equipment</th>
+								<th>Status</th>
+								<th>actions</th>
 							</tr>
-						{% else %}
-							<tr>
-								<td colspan="5">no records found</td>
-							</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-		
-				<a href="{{ path('app_room_new') }}">Create new</a>
-			</div> #}
+						</thead>
+						<tbody>
+							{% for room in rooms %}
+								<tr>
+									<td>{{ room.id }}</td>
+									<td>{{ room.name }}</td>
+									<td>{{ room.capacity }}</td>
+									<td>{{ room.equipment }}</td>
+									<td>{{ room.status }}</td>
+									<td>
+										<a href="{{ path('app_room_show', {'id': room.id}) }}">show</a>
+										<a href="{{ path('app_room_edit', {'id': room.id}) }}">edit</a>
+									</td>
+								</tr>
+							{% else %}
+								<tr>
+									<td colspan="5">no records found</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+			
+					<a href="{{ path('app_room_new') }}">Create new</a>
+				</div> #}
 	<section class="container px-4 mx-auto mt-10">
 		<h2 class="text-lg font-medium text-gray-800 ">Reservations</h2>
 		<div class="flex flex-col mt-6">
@@ -92,36 +92,36 @@
 										</td>
 										<td class="px-4 py-4 text-sm whitespace-nowrap">
 											<div>
-												{% if room.reservations is not empty %}
-													<ul>
-														{% for reservation in room.reservations %}
-															<li>
-																Reservation ID:
-																{{ reservation.id }}<br>
-																Date:
-																{{ reservation.date|date('Y-m-d') }}<br>
-																<!-- Ajoutez d'autres champs de réservation ici -->
-															</li>
-														{% endfor %}
-													</ul>
-												{% else %}
-													<p>No reservations found for this room.</p>
-												{% endif %}
+												{# {% if rooms.reservations is not empty %} #}
+												<ul>
+													{% for reservation in room.reservations %}
+														<li>
+															Reservation ID:
+															{{ reservation.id }}<br>
+															Date:
+															{{ reservation.date|date('Y-m-d') }}<br>
+															<!-- Ajoutez d'autres champs de réservation ici -->
+														</li>
+													{% endfor %}
+												</ul>
+												{# {% else %} #}
+											{# <p>No reservations found for this room.</p> #}
+												{# {% endif %} #}
 												{# <h4 class="text-gray-700">{{ room.reservations.date ? room.reservations.date|date('d-m-Y') : '' }}</h4>
-																							</div>
-																						</td>
-																						<td class="px-4 py-4 text-sm whitespace-nowrap">
-																							<div class="flex items-center">
-																								<p class="text-gray-700">{{ room.reservations.time ? room.reservations.time|date('H:i:s') : '' }}</p>
-																							</div>
-																						</td>
-																						<td class="px-4 py-4 text-sm whitespace-nowrap">
-																							<button class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg hover:bg-gray-100">
-																								<a href="{{ path('app_reservation_show', {'id': reservation.id}) }}">show</a>
-																							</button>
-																							<button class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg hover:bg-gray-100">
-																								<a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">edit</a>
-																							</button> #}
+																																			</div>
+																																		</td>
+																																		<td class="px-4 py-4 text-sm whitespace-nowrap">
+																																			<div class="flex items-center">
+																																				<p class="text-gray-700">{{ room.reservations.time ? room.reservations.time|date('H:i:s') : '' }}</p>
+																																			</div>
+																																		</td>
+																																		<td class="px-4 py-4 text-sm whitespace-nowrap">
+																																			<button class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg hover:bg-gray-100">
+																																				<a href="{{ path('app_reservation_show', {'id': reservation.id}) }}">show</a>
+																																			</button>
+																																			<button class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg hover:bg-gray-100">
+																																				<a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">edit</a>
+																																			</button> #}
 											</td>
 										</td>
 									</tr>
