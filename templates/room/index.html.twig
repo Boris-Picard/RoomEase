@@ -5,44 +5,44 @@
 
 {% block body %}
 	{# <div class="max-w-2xl mt-10 mx-auto">
-					<h1>Room index</h1>
-			
-					<table class="table">
-						<thead>
-							<tr>
-								<th>Id</th>
-								<th>Name</th>
-								<th>Capacity</th>
-								<th>Equipment</th>
-								<th>Status</th>
-								<th>actions</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for room in rooms %}
-								<tr>
-									<td>{{ room.id }}</td>
-									<td>{{ room.name }}</td>
-									<td>{{ room.capacity }}</td>
-									<td>{{ room.equipment }}</td>
-									<td>{{ room.status }}</td>
-									<td>
-										<a href="{{ path('app_room_show', {'id': room.id}) }}">show</a>
-										<a href="{{ path('app_room_edit', {'id': room.id}) }}">edit</a>
-									</td>
-								</tr>
-							{% else %}
-								<tr>
-									<td colspan="5">no records found</td>
-								</tr>
-							{% endfor %}
-						</tbody>
-					</table>
-			
-					<a href="{{ path('app_room_new') }}">Create new</a>
-				</div> #}
+													<h1>Room index</h1>
+											
+													<table class="table">
+														<thead>
+															<tr>
+																<th>Id</th>
+																<th>Name</th>
+																<th>Capacity</th>
+																<th>Equipment</th>
+																<th>Status</th>
+																<th>actions</th>
+															</tr>
+														</thead>
+														<tbody>
+															{% for room in rooms %}
+																<tr>
+																	<td>{{ room.id }}</td>
+																	<td>{{ room.name }}</td>
+																	<td>{{ room.capacity }}</td>
+																	<td>{{ room.equipment }}</td>
+																	<td>{{ room.status }}</td>
+																	<td>
+																		<a >show</a>
+																		<a >edit</a>
+																	</td>
+																</tr>
+															{% else %}
+																<tr>
+																	<td colspan="5">no records found</td>
+																</tr>
+															{% endfor %}
+														</tbody>
+													</table>
+											
+													<a href="{{ path('app_room_new') }}">Create new</a>
+												</div> #}
 	<section class="container px-4 mx-auto mt-10">
-		<h2 class="text-lg font-medium text-gray-800 ">Reservations</h2>
+		<h2 class="text-lg font-medium text-gray-800 ">Rooms</h2>
 		<div class="flex flex-col mt-6">
 			<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
 				<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -53,7 +53,7 @@
 								<tr>
 									<th scope="col" class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500">
 										<button class="flex items-center gap-x-3 focus:outline-none">
-											<span>Id</span>
+											<span>Name</span>
 
 											<svg class="h-3" viewbox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
 												<path d="M2.13347 0.0999756H2.98516L5.01902 4.79058H3.86226L3.45549 3.79907H1.63772L1.24366 4.79058H0.0996094L2.13347 0.0999756ZM2.54025 1.46012L1.96822 2.92196H3.11227L2.54025 1.46012Z" fill="currentColor" stroke="currentColor" stroke-width="0.1"/>
@@ -68,10 +68,13 @@
 									</th>
 
 									<th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
-										Date
+										Date & time
 									</th>
 
-									<th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">Time</th>
+									<th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">User</th>
+									<th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+										Equipments
+									</th>
 
 									<th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">Actions</th>
 								</tr>
@@ -81,7 +84,7 @@
 									<tr>
 										<td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
 											<div>
-												<h2 class="font-medium text-gray-800  ">{{room.id}}</h2>
+												<h2 class="font-medium text-gray-800  ">{{room.name}}</h2>
 											</div>
 										</td>
 										<td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
@@ -92,37 +95,46 @@
 										</td>
 										<td class="px-4 py-4 text-sm whitespace-nowrap">
 											<div>
-												{# {% if rooms.reservations is not empty %} #}
+												{% if room.reservations is not empty %}
+													<ul>
+														{% for reservation in room.reservations %}
+															<li>
+																{{ reservation.date|date('d-m-Y') }}
+																-
+																{{ reservation.time|date('H:i') }}
+															</li>
+														{% endfor %}
+													</ul>
+												{% else %}
+													<p>No reservations found for this room.</p>
+												{% endif %}
+											</td>
+										</td>
+										<td>
+											{% if room.reservations is not empty %}
 												<ul>
 													{% for reservation in room.reservations %}
 														<li>
-															Reservation ID:
-															{{ reservation.id }}<br>
-															Date:
-															{{ reservation.date|date('Y-m-d') }}<br>
-															<!-- Ajoutez d'autres champs de réservation ici -->
+															{{ reservation.users }}
 														</li>
 													{% endfor %}
 												</ul>
-												{# {% else %} #}
-											{# <p>No reservations found for this room.</p> #}
-												{# {% endif %} #}
-												{# <h4 class="text-gray-700">{{ room.reservations.date ? room.reservations.date|date('d-m-Y') : '' }}</h4>
-																																			</div>
-																																		</td>
-																																		<td class="px-4 py-4 text-sm whitespace-nowrap">
-																																			<div class="flex items-center">
-																																				<p class="text-gray-700">{{ room.reservations.time ? room.reservations.time|date('H:i:s') : '' }}</p>
-																																			</div>
-																																		</td>
-																																		<td class="px-4 py-4 text-sm whitespace-nowrap">
-																																			<button class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg hover:bg-gray-100">
-																																				<a href="{{ path('app_reservation_show', {'id': reservation.id}) }}">show</a>
-																																			</button>
-																																			<button class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg hover:bg-gray-100">
-																																				<a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">edit</a>
-																																			</button> #}
-											</td>
+											{% else %}
+												<p class="text-sm">No users found for this room.</p>
+											{% endif %}
+										</td>
+										<td class="px-4 py-4 text-sm whitespace-nowrap">
+											<div>
+												<p>{{room.equipment}}</p>
+											</div>
+										</td>
+										<td class="px-4 py-4 text-sm whitespace-nowrap">
+											<button class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg hover:bg-gray-100">
+												<a href="{{ path('app_room_show', {'id': room.id}) }}">show</a>
+											</button>
+											<button class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg hover:bg-gray-100">
+												<a href="{{ path('app_room_edit', {'id': room.id}) }}">edit</a>
+											</button>
 										</td>
 									</tr>
 									{%else%}
@@ -138,7 +150,7 @@
 		</div>
 		<div class="flex mt-3">
 			<a href="{{path('app_reservation_new')}}" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100">
-				Create a new Reservation
+				Create a new Room
 			</a>
 		</div>
 	</section>
