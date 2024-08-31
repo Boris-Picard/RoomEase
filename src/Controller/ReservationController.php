@@ -20,8 +20,8 @@ class ReservationController extends AbstractController
     public function index(ReservationRepository $reservationRepository): Response
     {
         $user = $this->getUser();
-        if($user) {
-            $user->eraseCredentials();
+        if(!$user) {
+            return $this->redirectToRoute('app_login');
         }
         return $this->render('reservation/index.html.twig', [
             'reservations' => $reservationRepository->findAll(),
