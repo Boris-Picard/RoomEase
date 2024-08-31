@@ -13,9 +13,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
-class RegistrationController extends AbstractController
+class RegistrationHostController extends AbstractController
 {
-    #[Route('/register', name: 'app_register')]
+    #[Route('/register_host', name: 'app_register_host')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -23,7 +23,7 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setRoles([UserRoleEnum::ROLE_GUEST->value]);
+            $user->setRoles([UserRoleEnum::ROLE_HOST->value]);
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -39,7 +39,7 @@ class RegistrationController extends AbstractController
             return $security->login($user, 'form_login', 'main');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('registration_host/register_host.html.twig', [
             'registrationForm' => $form,
         ]);
     }
