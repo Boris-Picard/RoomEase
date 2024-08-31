@@ -35,8 +35,9 @@ class RegistrationGuestController extends AbstractController
             $entityManager->flush();
 
             // do anything else you need here, like send an email
+            $security->login($user, 'form_login', 'main');
 
-            return $security->login($user, 'form_login', 'main');
+            return  $this->redirectToRoute('app_reservation_index');
         }
 
         return $this->render('registration_guest/register_guest.html.twig', [

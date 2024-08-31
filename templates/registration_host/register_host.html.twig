@@ -16,7 +16,9 @@
         }) }}
 		{{ form_row(registrationForm.agreeTerms) }}
 
-		<button type="submit" class="btn">Register</button>
+		<button type="submit" class="btn">Register as a Host</button>
+        <span>OR</span>
+        <a href="{{path('app_register_guest')}}" class="hover:underline">As a Guest</a>
 		{{ form_end(registrationForm) }}
 	</div>
 {% endblock %}
