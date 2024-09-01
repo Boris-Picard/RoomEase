@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use App\Entity\User;
 
 #[IsGranted('ROLE_GUEST')]
 #[Route('/reservation')]
@@ -21,7 +22,12 @@ class ReservationController extends AbstractController
     #[Route('/', name: 'app_reservation_index', methods: ['GET'])]
     public function index(ReservationRepository $reservationRepository): Response
     {
+        
         $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw $this->createAccessDeniedException('You must be logged in to access this page.');
+        }
+
         if(!$user) {
             return $this->redirectToRoute('app_login');
         }
@@ -34,6 +40,12 @@ class ReservationController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
+
+        // verify if $user is an instance of entity User
+        if (!$user instanceof User) {
+            throw $this->createAccessDeniedException('You must be logged in to access this page.');
+        }
+
         $reservation = new Reservation();
         $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);
@@ -53,6 +65,7 @@ class ReservationController extends AbstractController
                 }
                 // if all is ok set status to reserved add to db and return to index page
                 $room->setStatus(ReservationStatusEnum::Reserved);
+                $reservation->setUsers($user);
                 $entityManager->persist($reservation);
                 $entityManager->flush();
 

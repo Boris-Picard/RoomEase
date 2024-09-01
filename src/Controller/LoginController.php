@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use App\Entity\User;
 
 class LoginController extends AbstractController
 {
@@ -20,11 +21,14 @@ class LoginController extends AbstractController
 
         $user = $this->getUser();
 
-        if($user) {
-            if($this->isGranted('ROLE_GUEST')) {
+        if ($user) {
+            if (!$user instanceof User) {
+                throw $this->createAccessDeniedException('You must be logged in to access this page.');
+            }
+            if ($this->isGranted('ROLE_GUEST')) {
                 return $this->redirectToRoute('app_reservation_index');
             }
-            if($this->isGranted('ROLE_HOST')) {
+            if ($this->isGranted('ROLE_HOST')) {
                 return $this->redirectToRoute('app_room_index');
             }
         }
