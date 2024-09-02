@@ -18,14 +18,15 @@ use App\Entity\User;
 class RoomController extends AbstractController
 {
     #[Route('/', name: 'app_room_index', methods: ['GET'])]
-    public function index(RoomRepository $roomRepository): Response
+    public function index(): Response
     {
         $user = $this->getUser();
         if (!$user instanceof User) {
             throw $this->createAccessDeniedException('You must be logged in to access this page.');
         }
+        
         return $this->render('room/index.html.twig', [
-            'rooms' => $roomRepository->findAll(),
+            'rooms' => $user->getRooms(),
         ]);
     }
 

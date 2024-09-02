@@ -74,17 +74,11 @@
 											</td>
 										</td>
 										<td>
-											{# {% if room.reservations is not empty %}
-												<ul>
-													{% for reservation in room.reservations %}
-														<li>
-															{{ reservation.users }}
-														</li>
-													{% endfor %}
-												</ul>
-											{% else %}
-												<p class="text-sm">No users found for this room.</p>
-											{% endif %} #}
+											<ul>
+												<li>
+													{{ room.users.email }}
+												</li>
+											</ul>
 										</td>
 										<td class="px-4 py-4 text-sm whitespace-nowrap">
 											<div>
