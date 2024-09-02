@@ -20,7 +20,7 @@ use App\Entity\User;
 class ReservationController extends AbstractController
 {
     #[Route('/', name: 'app_reservation_index', methods: ['GET'])]
-    public function index(ReservationRepository $reservationRepository): Response
+    public function index(): Response
     {
         
         $user = $this->getUser();
@@ -28,11 +28,8 @@ class ReservationController extends AbstractController
             throw $this->createAccessDeniedException('You must be logged in to access this page.');
         }
 
-        if(!$user) {
-            return $this->redirectToRoute('app_login');
-        }
         return $this->render('reservation/index.html.twig', [
-            'reservations' => $reservationRepository->findAll(),
+            'reservations' => $user->getReservations(),
         ]);
     }
 
