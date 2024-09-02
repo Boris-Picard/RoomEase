@@ -4,43 +4,6 @@
 {% endblock %}
 
 {% block body %}
-	{# <div class="max-w-2xl mt-10 mx-auto">
-													<h1>Room index</h1>
-											
-													<table class="table">
-														<thead>
-															<tr>
-																<th>Id</th>
-																<th>Name</th>
-																<th>Capacity</th>
-																<th>Equipment</th>
-																<th>Status</th>
-																<th>actions</th>
-															</tr>
-														</thead>
-														<tbody>
-															{% for room in rooms %}
-																<tr>
-																	<td>{{ room.id }}</td>
-																	<td>{{ room.name }}</td>
-																	<td>{{ room.capacity }}</td>
-																	<td>{{ room.equipment }}</td>
-																	<td>{{ room.status }}</td>
-																	<td>
-																		<a >show</a>
-																		<a >edit</a>
-																	</td>
-																</tr>
-															{% else %}
-																<tr>
-																	<td colspan="5">no records found</td>
-																</tr>
-															{% endfor %}
-														</tbody>
-													</table>
-											
-													<a href="{{ path('app_room_new') }}">Create new</a>
-												</div> #}
 	<section class="container px-4 mx-auto mt-10">
 		<h2 class="text-lg font-medium text-gray-800 ">Rooms</h2>
 		<div class="flex flex-col mt-6">
@@ -111,7 +74,7 @@
 											</td>
 										</td>
 										<td>
-											{% if room.reservations is not empty %}
+											{# {% if room.reservations is not empty %}
 												<ul>
 													{% for reservation in room.reservations %}
 														<li>
@@ -121,7 +84,7 @@
 												</ul>
 											{% else %}
 												<p class="text-sm">No users found for this room.</p>
-											{% endif %}
+											{% endif %} #}
 										</td>
 										<td class="px-4 py-4 text-sm whitespace-nowrap">
 											<div>
@@ -149,7 +112,7 @@
 			</div>
 		</div>
 		<div class="flex mt-3">
-			<a href="{{path('app_reservation_new')}}" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100">
+			<a href="{{path('app_room_new')}}" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100">
 				Create a new Room
 			</a>
 		</div>

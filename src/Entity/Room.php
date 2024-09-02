@@ -36,6 +36,9 @@ class Room
     #[ORM\Column(type: Types::STRING, length: 50)]
     private ?string $status = null;
 
+    #[ORM\ManyToOne(inversedBy: 'rooms')]
+    private ?User $users = null;
+
     #[Assert\NotBlank]
     #[Assert\Length(
         min: 15,
@@ -95,6 +98,18 @@ class Room
     public function setStatus(ReservationStatusEnum $status): self
     {
         $this->status = $status->value;
+
+        return $this;
+    }
+
+    public function getUsers(): ?User
+    {
+        return $this->users;
+    }
+
+    public function setUsers(?User $users): static
+    {
+        $this->users = $users;
 
         return $this;
     }
