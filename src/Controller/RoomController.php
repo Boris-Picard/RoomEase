@@ -7,11 +7,13 @@ use App\Form\RoomType;
 use App\Repository\RoomRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\User;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[IsGranted('ROLE_HOST')]
 #[Route('/room')]
@@ -24,15 +26,19 @@ class RoomController extends AbstractController
         if (!$user instanceof User) {
             throw $this->createAccessDeniedException('You must be logged in to access this page.');
         }
-        
+
         return $this->render('room/index.html.twig', [
             'rooms' => $user->getRooms(),
         ]);
     }
 
     #[Route('/new', name: 'app_room_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function new(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        SluggerInterface $slugger,
+        #[Autowire('%kernel.project_dir%/public/uploads/images')] string $fileDirectory
+    ): Response {
         $user = $this->getUser();
 
         if (!$user instanceof User) {
@@ -46,15 +52,20 @@ class RoomController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $file = $form['imageName']->getData();
-            $file->move('/public/uploads/images/', $file->getClientOriginalName());
-            
-            $extension = $file->guessExtension();
-            dd($extension);
-            if(!$extension) {
-                $extension = 'bin';
-            }
 
-            $file->move('/public/uploads/images/', rand(1, 99999).'.'.$extension);
+            if ($file) {
+                $originalFileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFileName = $slugger->slug($originalFileName);
+                $newFileName = $safeFileName . '-' . uniqid() . '.' . $file->guessExtension();
+
+                try {
+                    $file->move($fileDirectory, $newFileName);
+                } catch (\Throwable $th) {
+                    $this->addFlash($th, 'There was a problem uploading your file. Please try again.');
+                }
+
+                $room->setImageName($newFileName);
+            }
 
             $room->setUsers($user);
             $entityManager->persist($room);

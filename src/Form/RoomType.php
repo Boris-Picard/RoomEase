@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class RoomType extends AbstractType
 {
@@ -30,6 +31,16 @@ class RoomType extends AbstractType
             ])
             ->add('imageName', FileType::class, [
                 'label' => 'Add an image of the room',
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid JPEG image',
+                    ])
+                ],
             ])
             ->add('equipment', TextareaType::class, [
                 "label" => 'Describe the equipment',
