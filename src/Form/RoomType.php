@@ -28,7 +28,7 @@ class RoomType extends AbstractType
                     "placeholder" => "10"
                 ]
             ])
-            ->add('image', FileType::class, [
+            ->add('imageName', FileType::class, [
                 'label' => 'Add an image of the room',
             ])
             ->add('equipment', TextareaType::class, [

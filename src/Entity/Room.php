@@ -60,8 +60,12 @@ class Room
         allowLandscape: true,
         allowPortrait: false,
     )]
+    #[Assert\File(
+        extensions: ['jpg'],
+        extensionsMessage: 'Pleace upload a valid JPG',
+    )]
     #[Assert\NotBlank]
-    private File $image;
+    private File $imageName;
 
     public function __construct()
     {
@@ -134,14 +138,14 @@ class Room
         return $this;
     }
 
-    public function setImage(?File $file = null): void
+    public function setImageName(?File $file = null): void
     {
-        $this->image = $file;
+        $this->imageName = $file;
     }
 
-    public function getImage(): File
+    public function getImageName(): File
     {
-        return $this->image;
+        return $this->imageName;
     }
 
     /**

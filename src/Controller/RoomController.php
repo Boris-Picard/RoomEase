@@ -44,6 +44,18 @@ class RoomController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $file = $form['imageName']->getData();
+            $file->move('/public/uploads/images/', $file->getClientOriginalName());
+            
+            $extension = $file->guessExtension();
+            dd($extension);
+            if(!$extension) {
+                $extension = 'bin';
+            }
+
+            $file->move('/public/uploads/images/', rand(1, 99999).'.'.$extension);
+
             $room->setUsers($user);
             $entityManager->persist($room);
             $entityManager->flush();
