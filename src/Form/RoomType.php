@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Room;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,6 +27,9 @@ class RoomType extends AbstractType
                 "attr" => [
                     "placeholder" => "10"
                 ]
+            ])
+            ->add('image', FileType::class, [
+                'label' => 'Add an image of the room',
             ])
             ->add('equipment', TextareaType::class, [
                 "label" => 'Describe the equipment',

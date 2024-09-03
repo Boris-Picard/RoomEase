@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
 class Room
@@ -54,6 +55,13 @@ class Room
      */
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'rooms')]
     private Collection $reservations;
+
+    #[Assert\Image(
+        allowLandscape: true,
+        allowPortrait: false,
+    )]
+    #[Assert\NotBlank]
+    private File $image;
 
     public function __construct()
     {
@@ -124,6 +132,16 @@ class Room
         $this->equipment = $equipment;
 
         return $this;
+    }
+
+    public function setImage(?File $file = null): void
+    {
+        $this->image = $file;
+    }
+
+    public function getImage(): File
+    {
+        return $this->image;
     }
 
     /**
