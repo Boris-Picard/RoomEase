@@ -63,6 +63,7 @@
 										</td>
 										<td class="px-4 py-4 text-sm whitespace-nowrap">
 											<div>
+											<img src="{{asset('uploads/images/' ~ room.imageName)}}" alt="">
 												{% if room.reservations is not empty %}
 													<ul>
 														{% for reservation in room.reservations %}

@@ -49,9 +49,9 @@ class Room
     #[ORM\Column(type: Types::TEXT)]
     private ?string $equipment = null;
 
-    #[ORM\Column(type: Types::STRING)]
+    #[ORM\Column(type: Types::STRING, name: 'image_name')]
     #[Assert\NotBlank]
-     private string $image_name;
+     private string $imageName;
 
     /**
      * @var Collection<int, Reservation>
@@ -130,16 +130,16 @@ class Room
         return $this;
     }
 
-    public function setImageName(string $image_name): self
-    {
-        $this->image_name = $image_name;
-
-        return $this;
-    }
-
     public function getImageName(): string
     {
-        return $this->image_name;
+        return $this->imageName;
+    }
+
+    public function setImageName(string $imageName): self
+    {
+        $this->imageName = $imageName;
+
+        return $this;
     }
 
     /**
