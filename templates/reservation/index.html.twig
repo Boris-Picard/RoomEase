@@ -91,7 +91,8 @@
 				<div class="flex overflow-x-auto justify-start gap-6">
 					{% for room in rooms %}
 						<div class="flex-none min-w-60 py-2">
-							{% include '/components/cards.html.twig' with {
+							<a href="{{ path('app_reservation_room_show', {'id': room.id})}}">
+								{% include '/components/cards.html.twig' with {
                 'name': room.name,
                 'image': room.imageName,
                 'status': room.status,
@@ -100,6 +101,7 @@
                 'username': room.users.username,
                 'email': room.users.email
             } %}
+							</a>
 						</div>
 					{% endfor %}
 				</div>

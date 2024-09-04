@@ -124,4 +124,10 @@ class ReservationController extends AbstractController
 
         return $this->redirectToRoute('app_reservation_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/room/{id}', name: 'app_reservation_room_show', methods: ['GET'])]
+    public function showRoom(): Response
+    {
+        return $this->render('reservation/show_room.html.twig');
+    }
 }
