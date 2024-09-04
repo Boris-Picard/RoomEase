@@ -29,6 +29,7 @@ class ReservationController extends AbstractController
         }
 
         $rooms = $entityManagerInterface->getRepository(Room::class)->findAll();
+        $message = null;
         if (!$rooms) {
             $message = 'No rooms available for the moment !';
         }

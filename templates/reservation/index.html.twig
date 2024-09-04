@@ -85,7 +85,17 @@
 				{% if message %}
 					<span>{{ message }}</span>
 				{% endif %}
-				{% for room in rooms %}{% endfor %}
+				{% for room in rooms %}
+					{% include '/components/cards.html.twig' with {
+						'name': room.name,
+						'image': room.imageName,
+						'status': room.status,
+						'capacity': room.capacity,
+						'equipment': room.equipment,
+						'username': room.users.username,
+						'email': room.users.email
+					} %}
+				{% endfor %}
 			</div>
 		</div>
 	</section>
