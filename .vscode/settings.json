@@ -5,6 +5,10 @@
   "emmet.includeLanguages": {
     "twig": "html"
   },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.formatOnSave": true,
   "fiveServer.php.executable": "",
   "fiveServer.php.ini": "C:\\php-8.3.10"
 }

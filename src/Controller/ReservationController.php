@@ -3,9 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Reservation;
+use App\Entity\Room;
 use App\Enum\ReservationStatusEnum;
 use App\Form\ReservationType;
-use App\Repository\ReservationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -20,16 +20,23 @@ use App\Entity\User;
 class ReservationController extends AbstractController
 {
     #[Route('/', name: 'app_reservation_index', methods: ['GET'])]
-    public function index(): Response
+    public function index(EntityManagerInterface $entityManagerInterface): Response
     {
-        
+
         $user = $this->getUser();
         if (!$user instanceof User) {
             throw $this->createAccessDeniedException('You must be logged in to access this page.');
         }
 
+        $rooms = $entityManagerInterface->getRepository(Room::class)->findAll();
+        if (!$rooms) {
+            $message = 'No rooms available for the moment !';
+        }
+
         return $this->render('reservation/index.html.twig', [
             'reservations' => $user->getReservations(),
+            'rooms' => $rooms,
+            'message' => $message
         ]);
     }
 
