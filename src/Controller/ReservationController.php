@@ -28,7 +28,7 @@ class ReservationController extends AbstractController
             throw $this->createAccessDeniedException('You must be logged in to access this page.');
         }
 
-        $rooms = $entityManagerInterface->getRepository(Room::class)->findBy([], ['name' => 'ASC']);
+        $rooms = $entityManagerInterface->getRepository(Room::class)->findBy(['status' => 'Available'], ['name' => 'ASC']);
         $message = null;
         if (!$rooms) {
             $message = 'No rooms available for the moment !';
