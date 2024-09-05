@@ -1,5 +1,43 @@
 {% extends "base.html.twig" %}
 
+{% block title %}
+	Room
+	{{room.name}}
+{% endblock %}
+
 {% block body %}
-	<span></span>
+	<section class="bg-white dark:bg-gray-900 h-screen flex items-center justify-center mx-auto">
+		<div class="container px-6 py-10 mx-auto">
+			<div class="lg:-mx-6 lg:flex lg:items-center">
+				<img class="object-cover object-center lg:w-1/2 lg:mx-6 w-full h-96 rounded-lg lg:h-[36rem]" src="{{asset('/uploads/images/' ~ room.imageName)}}" alt="">
+
+				<div class="mt-8 lg:w-1/2 lg:px-6 lg:mt-0">
+					<div class="py-3">
+						<span class="px-2 py-1 rounded-full {% if room.status == 'Available' %} bg-green-500 {% else %} bg-red-500 {% endif %}">
+							{{room.status}}
+						</span>
+					</div>
+					<h1 class="text-2xl font-semibold text-gray-800 dark:text-white lg:text-3xl lg:w-96">
+						{{room.name}}
+					</h1>
+					<p class="max-w-lg mt-6 text-gray-500 dark:text-gray-400 ">
+						{{room.equipment}}
+					</p>
+
+					<h3 class="mt-6 text-lg font-medium text-blue-500">{{room.users.username}}</h3>
+					<p class="text-gray-600 dark:text-gray-300">{{room.users.email}}</p>
+					<div class="mt-6">
+						<a href="{{ path('app_reservation_index') }}">
+							<button class="flex items-center px-4 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"/>
+								</svg>
+								<span class="mx-1">Back to list</span>
+							</button>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
 {% endblock %}
