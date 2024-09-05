@@ -126,8 +126,11 @@ class ReservationController extends AbstractController
     }
 
     #[Route('/room/{id}', name: 'app_reservation_room_show', methods: ['GET'])]
-    public function showRoom(): Response
+    public function showRoom(int $id, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('reservation/show_room.html.twig');
+        $room = $entityManager->getRepository(Room::class)->find($id);
+        return $this->render('reservation/room_show.html.twig', [
+            'room' => $room,
+        ]);
     }
 }
