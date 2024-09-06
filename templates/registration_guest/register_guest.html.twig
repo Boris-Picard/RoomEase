@@ -3,11 +3,10 @@
 {% block title %}
 	Register as Guest
 {% endblock %}
-
+{# #}
 {% block body %}
 	<section class="bg-white dark:bg-gray-900 h-screen mx-auto justify-center">
 		<div class="container flex items-center justify-center min-h-screen px-6 mx-auto max-w-sm">
-			{{ form_errors(registrationForm) }}
 
 			{{ form_start(registrationForm, {'attr': {'class': 'w-full max-w-md'}}) }}
 			<div class="flex justify-center mx-auto">
