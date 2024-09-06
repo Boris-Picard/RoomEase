@@ -54,11 +54,11 @@
 			{{ form_row(registrationForm.agreeTerms) }}
 			<div class="flex flex-col">
 				<button type="submit" class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">
-					Register
+					Register as Guest
 				</button>
 			</div>
 			<div class="mt-6 text-center ">
-				<a href="#" class="text-sm text-blue-500 hover:underline dark:text-blue-400">
+				<a href="{{path('app_login')}}" class="text-sm text-blue-500 hover:underline dark:text-blue-400">
 					Already have an account?
 				</a>
 			</div>
