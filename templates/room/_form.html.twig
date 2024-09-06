@@ -2,5 +2,6 @@
 
 {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 {{ form_widget(form) }}
-<button class="p-3 bg-zinc-800 hover:bg-zinc-600 text-white font-bold rounded-md w-full">{{ button_label|default('Add a new Room') }}</button>
+
+<button class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-500 rounded-lg hover:bg-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50">{{ button_label|default('Add a new Room') }}</button>
 {{ form_end(form) }}

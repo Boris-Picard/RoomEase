@@ -30,7 +30,7 @@ class RoomType extends AbstractType
                 ]
             ])
             ->add('imageName', FileType::class, [
-                'label' => 'Add an image of the room',
+                'label' => 'Add an image of the room (only JPEG)',
                 'required' => false,
                 'constraints' => [
                     new File([

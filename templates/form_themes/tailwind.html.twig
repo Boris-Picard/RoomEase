@@ -6,12 +6,18 @@
 {%- endblock form_row -%}
 
 {%- block widget_attributes -%}
-    {%- set attr = attr|merge({ class: attr.class|default(widget_class|default('block w-full py-3 text-gray-700 bg-white border rounded-lg px-11 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40')) ~ (disabled ? ' ' ~ widget_disabled_class|default('border-gray-300 text-gray-500')) ~ (errors|length ? ' ' ~ widget_errors_class|default('border-red-700')) }) -%}
+    {%- set current_route = app.current_route -%}
+    {%- set additional_classes = (current_route == 'app_register_guest' or current_route == 'app_register_host') ? 'px-11' : '' -%}
+    {%- set attr = attr|merge({ 
+        class: attr.class|default(widget_class|default('block w-full py-3 text-gray-700 bg-white border rounded-lg ' ~ additional_classes ~ ' dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40')) 
+        ~ (disabled ? ' ' ~ widget_disabled_class|default('border-gray-300 text-gray-500')) 
+        ~ (errors|length ? ' ' ~ widget_errors_class|default('border-red-700')) 
+    }) -%}
     {{- parent() -}}
 {%- endblock widget_attributes -%}
 
 {%- block form_label -%}
-    {%- set label_attr = label_attr|merge({ class: label_attr.class|default(label_class|default(' dark:text-slate-50 block text-gray-800 font-semibold')) }) -%}
+    {%- set label_attr = label_attr|merge({ class: label_attr.class|default(label_class|default('dark:text-slate-50 block text-gray-800 font-semibold')) }) -%}
     {{- parent() -}}
 {%- endblock form_label -%}
 
@@ -65,6 +71,23 @@
         {{- form_help(form) -}}
     </div>
 {%- endblock checkbox_row -%}
+
+{%- block file_widget -%}
+    <label for="{{ id }}" class="flex items-center px-3 py-3 mx-auto text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-600 dark:bg-gray-900">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-300 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+        </svg>
+
+        <h2 class="mx-3 text-gray-400">{{ label|default('') }}</h2>
+
+        <input id="{{ id }}" name="{{ full_name }}" type="file" class="hidden" {{ block('widget_attributes') }} />
+    </label>
+    {% if form.vars.value is not empty %}
+        <div class="mt-2">
+            <img src="{{ asset('uploads/images/' ~ form.vars.value) }}" alt="Image Preview" class="w-full rounded-lg">
+        </div>
+    {% endif %}
+{%- endblock file_widget -%}
 
 {%- block checkbox_widget -%}
     {%- set widget_class = widget_class|default('mr-2 rounded-md') -%}
