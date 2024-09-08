@@ -32,7 +32,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
-    
+
     #[Assert\NotBlank]
     #[Assert\NotCompromisedPassword]
     #[Assert\PasswordStrength([
@@ -57,6 +57,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->reservations = new ArrayCollection();
         $this->rooms = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->getEmail();
     }
 
     public function getId(): ?int
