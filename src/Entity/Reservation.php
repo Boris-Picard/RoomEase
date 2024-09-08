@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use App\Enum\ReservationStatusEnum;
 use App\Repository\ReservationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Reservation
 {
     #[ORM\Id]
@@ -82,5 +84,25 @@ class Reservation
         $this->rooms = $rooms;
 
         return $this;
+    }
+
+    #[ORM\PreRemove]
+    public function preRemove()
+    {
+        $room = $this->getRooms();
+        
+        if ($room) {
+            $room->setStatus(ReservationStatusEnum::Available);
+        }
+    }
+
+    #[ORM\PrePersist]
+    public function prePersist()
+    {
+        $room = $this->getRooms();
+        
+        if ($room) {
+            $room->setStatus(ReservationStatusEnum::Reserved); 
+        }
     }
 }

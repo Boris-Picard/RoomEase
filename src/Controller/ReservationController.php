@@ -68,8 +68,7 @@ class ReservationController extends AbstractController
                         'form' => $form,
                     ]);
                 }
-                // if all is ok set status to reserved add to db and return to index page
-                $room->setStatus(ReservationStatusEnum::Reserved);
+                // if all is ok add to db and return to index page
                 $reservation->setUsers($user);
                 $entityManager->persist($reservation);
                 $entityManager->flush();
@@ -114,10 +113,6 @@ class ReservationController extends AbstractController
     public function delete(Request $request, Reservation $reservation, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $reservation->getId(), $request->getPayload()->getString('_token'))) {
-            $room = $reservation->getRooms();
-            if ($room->getStatus() === ReservationStatusEnum::Reserved->value) {
-                $room->setStatus(ReservationStatusEnum::Available);
-            }
             $entityManager->remove($reservation);
             $entityManager->flush();
         }
