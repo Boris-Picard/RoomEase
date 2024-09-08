@@ -51,7 +51,7 @@ class Room
 
     #[ORM\Column(type: Types::STRING, name: 'image_name')]
     #[Assert\NotBlank]
-     private string $imageName;
+    private string $imageName;
 
     /**
      * @var Collection<int, Reservation>
@@ -63,6 +63,11 @@ class Room
     {
         $this->reservations = new ArrayCollection();
         $this->status = ReservationStatusEnum::Available->value;
+    }
+
+    public function __tostring(): string
+    {
+        return $this->getName();
     }
 
     public function getId(): ?int
