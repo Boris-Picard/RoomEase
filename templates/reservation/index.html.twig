@@ -46,8 +46,13 @@
 										</td>
 										<td class="px-4 py-4 text-sm whitespace-nowrap">
 											<div>
-												<p class="text-gray-700">{{ reservation.date|date('d-m-Y') }}</p>
-												<p class="text-gray-700">{{ reservation.time|date('H:i:s') }}</p>
+												{% if "now"|date('d-m-Y') <= reservation.date|date('d-m-Y') %}
+													<p class="text-red-500 animate-pulse">{{ reservation.date|date('d-m-Y') }}</p>
+													<p class="text-gray-700">{{ reservation.time|date('H:i:s') }}</p>
+												{% else %}
+													<p class="text-gray-700">{{ reservation.date|date('d-m-Y') }}</p>
+													<p class="text-gray-700">{{ reservation.time|date('H:i:s') }}</p>
+												{% endif %}
 											</div>
 										</td>
 										<td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
@@ -64,35 +69,37 @@
 											</button>
 										</td>
 									</tr>
-								{% else %}
-									<tr>
-										<td colspan="5" class="px-4 py-4 text-sm whitespace-nowrap">no records found</td>
-									</tr>
-								{% endfor %}
+								</tbody>
 							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="5" class="px-4 py-4 text-sm whitespace-nowrap">no records found</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
 		</div>
-		<div class="flex mt-3">
-			<a href="{{ path('app_reservation_new') }}" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100">
-				Create a new Reservation
-			</a>
-		</div>
-		<div class="flex items-center justify-between mt-6 overflow-x-auto">
-			<div>
-				{% if message %}
-					<span>{{ message }}</span>
-				{% endif %}
-				<h3 class="text-xl font-bold py-3">
-					Room Available
-				</h3>
-				<div class="flex overflow-x-auto justify-start gap-6">
-					{% for room in rooms %}
-						<div class="flex-none min-w-60 py-2">
-							<a href="{{ path('app_reservation_room_show', {'id': room.id})}}">
-								{% include '/components/cards.html.twig' with {
+	</div>
+</div>
+<div class="flex mt-3">
+	<a href="{{ path('app_reservation_new') }}" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100">
+		Create a new Reservation
+	</a>
+</div>
+<div class="flex items-center justify-between mt-6 overflow-x-auto">
+	<div>
+		{% if message %}
+			<span>{{ message }}</span>
+		{% endif %}
+		<h3 class="text-xl font-bold py-3">
+			Room Available
+		</h3>
+		<div class="flex overflow-x-auto justify-start gap-6">
+			{% for room in rooms %}
+				<div class="flex-none min-w-60 py-2">
+					<a href="{{ path('app_reservation_room_show', {'id': room.id})}}">
+						{% include '/components/cards.html.twig' with {
                 'name': room.name,
                 'image': room.imageName,
                 'status': room.status,
@@ -101,11 +108,9 @@
                 'username': room.users.username,
                 'email': room.users.email
             } %}
-							</a>
-						</div>
-					{% endfor %}
+					</a>
 				</div>
-			</div>
+			{% endfor %}
 		</div>
-	</section>
-{% endblock %}
+	</div>
+</section>{% endblock %}
