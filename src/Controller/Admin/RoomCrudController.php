@@ -27,7 +27,9 @@ class RoomCrudController extends AbstractCrudController
             TextField::new('status'),
             TextEditorField::new('equipment'),
             AssociationField::new('users'),
-            ImageField::new('image_name')->setUploadDir('/public/uploads/images/'),
+            ImageField::new('image_name')->setUploadDir('/public/uploads/images/')
+                ->setUploadDir('public/uploads/images/')
+                ->setBasePath('uploads/images/'),
         ];
     }
 }
