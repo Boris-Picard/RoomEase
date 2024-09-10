@@ -6,22 +6,25 @@ use App\Entity\Reservation;
 use App\Entity\Room;
 use App\Enum\ReservationStatusEnum;
 use App\Form\ReservationType;
+use App\Trait\GuestOrAdminTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\User;
 
-#[IsGranted('ROLE_GUEST')]
 #[Route('/reservation')]
 class ReservationController extends AbstractController
 {
+    use GuestOrAdminTrait;
+
     #[Route('/', name: 'app_reservation_index', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManagerInterface): Response
     {
+
+        $this->checkAccessGuestOrAdmin();
 
         $user = $this->getUser();
         if (!$user instanceof User) {
@@ -44,6 +47,8 @@ class ReservationController extends AbstractController
     #[Route('/new', name: 'app_reservation_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->checkAccessGuestOrAdmin();
+
         $user = $this->getUser();
 
         // verify if $user is an instance of entity User
@@ -86,6 +91,8 @@ class ReservationController extends AbstractController
     #[Route('/{id}', name: 'app_reservation_show', methods: ['GET'])]
     public function show(Reservation $reservation): Response
     {
+        $this->checkAccessGuestOrAdmin();
+
         return $this->render('reservation/show.html.twig', [
             'reservation' => $reservation,
         ]);
@@ -94,6 +101,8 @@ class ReservationController extends AbstractController
     #[Route('/{id}/edit', name: 'app_reservation_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Reservation $reservation, EntityManagerInterface $entityManager): Response
     {
+        $this->checkAccessGuestOrAdmin();
+
         $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);
 
@@ -112,6 +121,8 @@ class ReservationController extends AbstractController
     #[Route('/{id}', name: 'app_reservation_delete', methods: ['POST'])]
     public function delete(Request $request, Reservation $reservation, EntityManagerInterface $entityManager): Response
     {
+        $this->checkAccessGuestOrAdmin();
+
         if ($this->isCsrfTokenValid('delete' . $reservation->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($reservation);
             $entityManager->flush();
@@ -123,6 +134,8 @@ class ReservationController extends AbstractController
     #[Route('/room/{id}', name: 'app_reservation_room_show', methods: ['GET'])]
     public function showRoom(int $id, EntityManagerInterface $entityManager): Response
     {
+        $this->checkAccessGuestOrAdmin();
+
         $room = $entityManager->getRepository(Room::class)->find($id);
         return $this->render('reservation/room_show.html.twig', [
             'room' => $room,
