@@ -4,24 +4,26 @@ namespace App\Controller;
 
 use App\Entity\Room;
 use App\Form\RoomType;
-use App\Repository\RoomRepository;
+use App\Trait\HostOrAdminTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\User;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-#[IsGranted('ROLE_HOST')]
 #[Route('/room')]
 class RoomController extends AbstractController
 {
+    use HostOrAdminTrait;
+    
     #[Route('/', name: 'app_room_index', methods: ['GET'])]
     public function index(): Response
     {
+        $this->checkAccessHostOrAdmin();
+
         $user = $this->getUser();
         if (!$user instanceof User) {
             throw $this->createAccessDeniedException('You must be logged in to access this page.');
@@ -39,6 +41,8 @@ class RoomController extends AbstractController
         SluggerInterface $slugger,
         #[Autowire('%kernel.project_dir%/public/uploads/images')] string $fileDirectory
     ): Response {
+        $this->checkAccessHostOrAdmin();
+
         $user = $this->getUser();
 
         if (!$user instanceof User) {
@@ -83,6 +87,8 @@ class RoomController extends AbstractController
     #[Route('/{id}', name: 'app_room_show', methods: ['GET'])]
     public function show(Room $room): Response
     {
+        $this->checkAccessHostOrAdmin();
+
         return $this->render('room/show.html.twig', [
             'room' => $room,
         ]);
@@ -91,6 +97,8 @@ class RoomController extends AbstractController
     #[Route('/{id}/edit', name: 'app_room_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Room $room, EntityManagerInterface $entityManager): Response
     {
+        $this->checkAccessHostOrAdmin();
+
         $form = $this->createForm(RoomType::class, $room);
         $form->handleRequest($request);
 
@@ -109,6 +117,8 @@ class RoomController extends AbstractController
     #[Route('/{id}', name: 'app_room_delete', methods: ['POST'])]
     public function delete(Request $request, Room $room, EntityManagerInterface $entityManager): Response
     {
+        $this->checkAccessHostOrAdmin();
+        
         if ($this->isCsrfTokenValid('delete' . $room->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($room);
             $entityManager->flush();
