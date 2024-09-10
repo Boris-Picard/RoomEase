@@ -46,7 +46,7 @@
 										</td>
 										<td class="px-4 py-4 text-sm whitespace-nowrap">
 											<div>
-												{% if "now"|date('d-m-Y') <= reservation.date|date('d-m-Y') %}
+												{% if "now"|date('d-m-Y') >= reservation.date|date('d-m-Y') %}
 													<p class="text-red-500 animate-pulse">{{ reservation.date|date('d-m-Y') }}</p>
 													<p class="text-gray-700">{{ reservation.time|date('H:i:s') }}</p>
 												{% else %}
@@ -60,13 +60,15 @@
 												<h2 class="font-medium text-gray-800">{{ reservation.rooms.users.email }}</h2>
 											</div>
 										</td>
-										<td class="px-4 py-4 text-sm whitespace-nowrap">
-											<button class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg hover:bg-gray-100">
-												<a href="{{ path('app_reservation_show', {'id': reservation.id}) }}">show</a>
-											</button>
-											<button class="px-1 py-1 text-gray-500 transition-colors duration-200 rounded-lg hover:bg-gray-100">
-												<a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">edit</a>
-											</button>
+										<td class="px-4 py-4 whitespace-nowrap">
+											<div class="flex flex-nowrap space-x-3 items-center justify-start mx-auto">
+												<a href="{{ path('app_reservation_show', {'id': reservation.id}) }}">
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24"><path d="M15 12c0 1.654-1.346 3-3 3s-3-1.346-3-3 1.346-3 3-3 3 1.346 3 3zm9-.449s-4.252 8.449-11.985 8.449c-7.18 0-12.015-8.449-12.015-8.449s4.446-7.551 12.015-7.551c7.694 0 11.985 7.551 11.985 7.551zm-7 .449c0-2.757-2.243-5-5-5s-5 2.243-5 5 2.243 5 5 5 5-2.243 5-5z"/></svg>
+												</a>
+												<a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">
+													<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24"><path d="M14.078 4.232l-12.64 12.639-1.438 7.129 7.127-1.438 12.641-12.64-5.69-5.69zm-10.369 14.893l-.85-.85 11.141-11.125.849.849-11.14 11.126zm2.008 2.008l-.85-.85 11.141-11.125.85.85-11.141 11.125zm18.283-15.444l-2.816 2.818-5.691-5.691 2.816-2.816 5.691 5.689z"/></svg>
+												</a>
+											</div>
 										</td>
 									</tr>
 								</tbody>
