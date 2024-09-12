@@ -19,10 +19,11 @@ RoomEase is a room booking application built with Symfony, Doctrine, and EasyAdm
 ## Installation
 
 1. Clone the project:
-   ```bash
-   git clone https://github.com/your-repo/roomease.git
-   cd roomease
-   ```
+
+```bash
+git clone https://github.com/your-repo/roomease.git
+cd roomease
+```
 
 Install dependencies:
 
@@ -49,11 +50,14 @@ Run the Symfony server:
 symfony server:start
 ```
 
-Key Entities
-Reservation: Manages room bookings with date, time, and related users and rooms.
-Room: Defines room properties (name, capacity, equipment, etc.).
-User: Represents guests and hosts with distinct roles.
-Tech Stack
-Symfony, Doctrine ORM
-PostgreSQL
-EasyAdmin for backend management
+## Key Entities
+
+- **Reservation**: Manages room bookings with date, time, and related users and rooms.
+- **Room**: Defines room properties (name, capacity, equipment, etc.).
+- **User**: Represents guests and hosts with distinct roles.
+
+## Tech Stack
+
+- **Backend**: Symfony, Doctrine ORM
+- **Database**: PostgreSQL
+- **Administration**: EasyAdmin for backend management
