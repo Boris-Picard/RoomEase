@@ -1,30 +1,80 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Reservation{% endblock %}
+{% block title %}
+	Reservation
+{% endblock %}
 
 {% block body %}
-    <h1>Reservation</h1>
+	<section class="container px-4 mx-auto">
+		<h2 class="text-lg font-medium text-gray-800 dark:text-white">Reservation</h2>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ reservation.id }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ reservation.date ? reservation.date|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Time</th>
-                <td>{{ reservation.time ? reservation.time|date('H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+		<div class="flex flex-col mt-6">
+			<div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+				<div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+					<div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
 
-    <a href="{{ path('app_reservation_index') }}">back to list</a>
+						<table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+							<thead class="bg-gray-50 dark:bg-gray-800">
+								<tr>
+									<th scope="col" class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+										<button class="flex items-center gap-x-3 focus:outline-none">
+											<span>Id</span>
+										</button>
+									</th>
 
-    <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">edit</a>
+									<th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+										Date
+									</th>
 
-    {{ include('reservation/_delete_form.html.twig') }}
+									<th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+										Time
+									</th>
+								</tr>
+							</thead>
+							<tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+								<tr>
+									<td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
+										<div>
+											<h2 class="font-medium text-gray-800 dark:text-white ">{{ reservation.id }}</h2>
+										</div>
+									</td>
+									<td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
+										<div class="text-gray-500 dark:text-gray-400">
+											{{ reservation.date ? reservation.date|date('d-m-Y H:i:s') : '' }}
+										</div>
+									</td>
+									<td class="px-4 py-4 text-sm whitespace-nowrap">
+										<div>
+											<p class="text-gray-500 dark:text-gray-400">{{ reservation.time ? reservation.time|date('H:i:s') : '' }}</p>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="flex items-center justify-between mt-6">
+			<a href="{{ path('app_reservation_index') }}" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"/>
+				</svg>
+
+				<span>
+					previous
+				</span>
+			</a>
+			<a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
+					<path d="M14.078 4.232l-12.64 12.639-1.438 7.129 7.127-1.438 12.641-12.64-5.69-5.69zm-10.369 14.893l-.85-.85 11.141-11.125.849.849-11.14 11.126zm2.008 2.008l-.85-.85 11.141-11.125.85.85-11.141 11.125zm18.283-15.444l-2.816 2.818-5.691-5.691 2.816-2.816 5.691 5.689z"/>
+				</svg>
+
+				<span>
+					Edit
+				</span>
+			</a>
+		</div>
+	</section>
+	{{ include('reservation/_delete_form.html.twig') }}
 {% endblock %}
